@@ -1,3 +1,5 @@
+using System;
+
 namespace BlueModas.Domain
 {
     public class Product
@@ -7,5 +9,6 @@ namespace BlueModas.Domain
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string ImageURL { get; set; }
+        public DateTime IncludedAt { get; set; }
     }
 }
