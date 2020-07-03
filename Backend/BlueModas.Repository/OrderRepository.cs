@@ -44,7 +44,7 @@ namespace BlueModas.Repository
                 query = query.Include(i => i.Items);
             }
             
-            query.Where(o => o.Id == id);
+            query = query.Where(o => o.Id == id);
 
             return await query.FirstOrDefaultAsync();
         }

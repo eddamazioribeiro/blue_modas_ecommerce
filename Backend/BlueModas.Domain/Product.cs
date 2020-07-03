@@ -10,5 +10,6 @@ namespace BlueModas.Domain
         public int Quantity { get; set; }
         public string ImageURL { get; set; }
         public DateTime IncludedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

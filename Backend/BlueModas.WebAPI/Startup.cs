@@ -31,6 +31,7 @@ namespace BlueModas.WebAPI
             (
                 options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
             );
+            services.AddScoped<ProductRepository>();
             services.AddControllers();
         }
 

@@ -39,7 +39,7 @@ namespace BlueModas.Repository
         {
             IQueryable<Address> query = _context.Addresses;
             
-            query.Where(a => a.User.Id == userId);
+            query = query.Where(a => a.User.Id == userId);
 
             return await query.ToArrayAsync();
         }

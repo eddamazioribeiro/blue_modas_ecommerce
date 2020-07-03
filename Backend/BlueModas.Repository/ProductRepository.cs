@@ -39,7 +39,7 @@ namespace BlueModas.Repository
         {
             IQueryable<Product> query = _context.Products;
             
-            query.Where(o => o.Id == id);
+            query = query.Where(p => p.Id == id);
 
             return await query.FirstOrDefaultAsync();
         }
