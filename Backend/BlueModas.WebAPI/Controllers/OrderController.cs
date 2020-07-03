@@ -40,7 +40,7 @@ namespace BlueModas.WebAPI.Controllers
                 return this.StatusCode
                 (
                     StatusCodes.Status500InternalServerError,
-                    "Erro ao recuperar as informações do banco de dados\n"
+                    "Erro ao inserir as informações no banco de dados\n"
                     + ex.InnerException
                 );
             }

@@ -35,13 +35,22 @@ namespace BlueModas.Repository
             return(await _context.SaveChangesAsync()) > 0;
         }        
 
-        public async Task<OrderItem[]> GetOrderItems(int orderId)
+        public async Task<OrderItem[]> GetOrderItemsAsync(int orderId)
         {
             IQueryable<OrderItem> query = _context.OrderItems;
            
-            query.Where(o => o.OrderId == orderId);
+            query = query.Where(o => o.OrderId == orderId);
 
             return await query.ToArrayAsync();
         }
+
+        public async Task<OrderItem> GetOrderItemAsync(int orderId, int productId)
+        {
+            IQueryable<OrderItem> query = _context.OrderItems;
+           
+            query = query.Where(o => o.OrderId == orderId && o.ProductId == productId);
+
+            return await query.FirstOrDefaultAsync();
+        }        
     }
 }

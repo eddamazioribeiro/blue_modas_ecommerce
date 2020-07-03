@@ -12,27 +12,25 @@ namespace BlueModas.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class OrderItemController : ControllerBase
     {
-        private readonly ProductRepository _repo;
+        private readonly OrderItemRepository _repo;
 
-        public ProductController(ProductRepository repo)
+        public OrderItemController(OrderItemRepository repo)
         {
             _repo = repo;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(OrderItem orderItem)
         {
             try
             {
-                product.IncludedAt = DateTime.Now;
-
-                _repo.Add(product);
+                _repo.Add(orderItem);
 
                 if(await _repo.SaveChangesAsync())
                 {
-                    return Created($"/api/product/{product.Id}", product);
+                    return Ok();
                 }
             }
             catch (System.Exception ex)
@@ -40,7 +38,7 @@ namespace BlueModas.WebAPI.Controllers
                 return this.StatusCode
                 (
                     StatusCodes.Status500InternalServerError,
-                    "Erro ao inserir as informações no banco de dados\n"
+                    "Erro ao inserir as informações do banco de dados\n"
                     + ex.InnerException
                 );
             }
@@ -48,107 +46,81 @@ namespace BlueModas.WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPut("{ProductId}")]
-        public async Task<IActionResult> Update(int productId, Product product)
+        [HttpPut]
+        public async Task<IActionResult> Update(OrderItem item)
         {
             try
             {
-                var productAux = (Product)await _repo.GetByIdAsync(productId);
+                var itemAux = (OrderItem)await _repo.GetOrderItemAsync(item.OrderId, item.ProductId);
                 
-                if(productAux == null)
+                if(itemAux == null)
                 {
                     return NotFound();
                 }
                 
-                productAux.Name = product.Name;
-                productAux.Price = product.Price;
-                productAux.Quantity = product.Quantity;
-                productAux.ImageURL = product.ImageURL;
-                productAux.UpdatedAt = DateTime.Now;
+                itemAux.Price = item.Price;
+                itemAux.Quantity = item.Quantity;
 
-                _repo.Update(productAux);
+                _repo.Update(itemAux);
                 
                 if(await _repo.SaveChangesAsync())
                 {
-                    return Ok(productAux);
+                    return Ok(itemAux);
                 }               
             }
             catch(System.Exception ex)
             {
                 return this.StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "Erro ao atualizar o produto\n"
+                    "Erro ao atualizar o item do pedido\n"
                     + ex.InnerException);
             }
 
             return BadRequest();          
         }
 
-        [HttpDelete("{ProductId}")]
-        public async Task<IActionResult> Delete(int productId)
+        [HttpDelete]
+        public async Task<IActionResult> Delete(OrderItem item)
         {
             try
             {
-                var productAux = await _repo.GetByIdAsync(productId);
+                var itemAux = await _repo.GetOrderItemAsync(item.OrderId, item.ProductId);
 
-                if(productAux == null)
+                if(itemAux == null)
                 {
                     return NotFound();
                 }
                 
-                _repo.Delete(productAux);
+                _repo.Delete(itemAux);
 
                 if(await _repo.SaveChangesAsync())
                 {
-                    return Ok("Produto excluído com sucesso");
+                    return Ok("Item do pedido excluído com sucesso");
                 }               
             }
             catch(System.Exception ex)
             {
                 return this.StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "Erro ao excluir o produto\n"
+                    "Erro ao excluir o item do pedido\n"
                     + ex.InnerException);
             }
 
             return BadRequest();          
         }
 
-        [HttpGet("{ProductId}")]
-        public async Task<IActionResult> GetById(int productId)
+        [HttpGet("{OrderId}")]
+        public async Task<IActionResult> GetOrderItems(int orderId)
         {
             try
             {
-                var result = await _repo.GetByIdAsync(productId);
+                var result = await _repo.GetOrderItemsAsync(orderId);
                 
-                if(result == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(result);
-            }
-            catch(System.Exception ex)
-            {
-                return this.StatusCode(
-                    StatusCodes.Status500InternalServerError,
-                    "Erro ao recuperar as informações do banco de dados\n"
-                    + ex.InnerException);
-            }              
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            try
-            {
-                var result = await _repo.GetAllProducts();
-
                 if(result.Count() == 0)
                 {
                     return NotFound();
                 }
-                
+
                 return Ok(result);
             }
             catch(System.Exception ex)
@@ -158,6 +130,6 @@ namespace BlueModas.WebAPI.Controllers
                     "Erro ao recuperar as informações do banco de dados\n"
                     + ex.InnerException);
             }              
-        }                              
+        }                                     
     }
 }
