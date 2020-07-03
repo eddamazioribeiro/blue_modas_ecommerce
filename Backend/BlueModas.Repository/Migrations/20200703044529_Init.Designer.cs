@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlueModas.Repository.Migrations
 {
     [DbContext(typeof(BlueModasContext))]
-    [Migration("20200702013528_init")]
-    partial class init
+    [Migration("20200703044529_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,7 @@ namespace BlueModas.Repository.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ZipCode")
@@ -114,6 +114,9 @@ namespace BlueModas.Repository.Migrations
                     b.Property<string>("ImageURL")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("IncludedAt")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
@@ -122,6 +125,9 @@ namespace BlueModas.Repository.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -153,9 +159,11 @@ namespace BlueModas.Repository.Migrations
 
             modelBuilder.Entity("BlueModas.Domain.Address", b =>
                 {
-                    b.HasOne("BlueModas.Domain.User", "User")
+                    b.HasOne("BlueModas.Domain.User", null)
                         .WithMany("Addresses")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BlueModas.Domain.OrderItem", b =>

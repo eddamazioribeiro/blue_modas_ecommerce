@@ -33,23 +33,32 @@ namespace BlueModas.Repository
         public async Task<bool> SaveChangesAsync()
         {
             return(await _context.SaveChangesAsync()) > 0;
-        }        
+        }
 
-        public async Task<Address[]> GetUserAddresses(int userId)
+        public async Task<Address> GetAddressByIdAsync(int id)
         {
             IQueryable<Address> query = _context.Addresses;
             
-            query = query.Where(a => a.User.Id == userId);
+            query = query.Where(a => a.Id == id);
+
+            return await query.FirstOrDefaultAsync();
+        }           
+
+        public async Task<Address[]> GetUserAddressesAsync(int userId)
+        {
+            IQueryable<Address> query = _context.Addresses;
+            
+            query = query.Where(a => a.UserId == userId);
 
             return await query.ToArrayAsync();
         }
 
-        public async Task<Address> GetUserMainAddress(int userId)
+        public async Task<Address> GetUserMainAddressAsync(int userId)
         {
             IQueryable<Address> query = _context.Addresses;
 
             query = query
-                .Where(a => a.User.Id == userId)
+                .Where(a => a.UserId == userId)
                 .Where(a => a.MainAddress == true);
 
             return await query.FirstOrDefaultAsync();

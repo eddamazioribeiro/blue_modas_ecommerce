@@ -40,7 +40,7 @@ namespace BlueModas.Repository.Migrations
                     b.Property<string>("Street")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ZipCode")
@@ -157,9 +157,11 @@ namespace BlueModas.Repository.Migrations
 
             modelBuilder.Entity("BlueModas.Domain.Address", b =>
                 {
-                    b.HasOne("BlueModas.Domain.User", "User")
+                    b.HasOne("BlueModas.Domain.User", null)
                         .WithMany("Addresses")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BlueModas.Domain.OrderItem", b =>

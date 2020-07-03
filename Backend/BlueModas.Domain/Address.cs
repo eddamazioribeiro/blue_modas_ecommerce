@@ -10,6 +10,6 @@ namespace BlueModas.Domain
         public int ZipCode { get; set; }
         public string Complement { get; set; }
         public bool MainAddress { get; set; }
-        public User User { get; set; }
+        public int UserId { get; set; }
     }
 }
