@@ -49,7 +49,7 @@ namespace BlueModas.Repository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<Order[]> GetUseOrdersAsync(int userId, bool includeItems = true)
+        public async Task<Order[]> GetUserOrdersAsync(int userId, bool includeItems = true)
         {
             IQueryable<Order> query = _context.Orders;
 

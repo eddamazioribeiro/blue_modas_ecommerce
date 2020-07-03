@@ -12,27 +12,27 @@ namespace BlueModas.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductController : ControllerBase
+    public class OrderController : ControllerBase
     {
-        private readonly ProductRepository _repo;
+        private readonly OrderRepository _repo;
 
-        public ProductController(ProductRepository repo)
+        public OrderController(OrderRepository repo)
         {
             _repo = repo;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(Order order)
         {
             try
             {
-                product.IncludedAt = DateTime.Now;
+                order.CreatedAt = DateTime.Now;
 
-                _repo.Add(product);
+                _repo.Add(order);
 
                 if(await _repo.SaveChangesAsync())
                 {
-                    return Created($"/api/product/{product.Id}", product);
+                    return Created($"/api/order/{order.Id}", order);
                 }
             }
             catch (System.Exception ex)
@@ -48,78 +48,79 @@ namespace BlueModas.WebAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPut("{ProductId}")]
-        public async Task<IActionResult> Update(int productId, Product product)
+        [HttpPut("{OrderId}")]
+        public async Task<IActionResult> Update(int orderId, Order order)
         {
             try
             {
-                var productAux = (Product)await _repo.GetByIdAsync(productId);
+                var orderAux = (Order)await _repo.GetByIdAsync(orderId);
                 
-                if(productAux == null)
+                if(orderAux == null)
                 {
                     return NotFound();
                 }
                 
-                productAux.Name = product.Name;
-                productAux.Price = product.Price;
-                productAux.Quantity = product.Quantity;
-                productAux.ImageURL = product.ImageURL;
-                productAux.UpdatedAt = DateTime.Now;
+                orderAux.UserId = order.UserId;
+                orderAux.Payment = order.Payment;
+                orderAux.Status = order.Status;
+                orderAux.ShippingAddressId = order.ShippingAddressId;
+                orderAux.UpdatedAt = DateTime.Now;
+                // orderAux.Items = order.Items;
 
-                _repo.Update(productAux);
+                _repo.Update(orderAux);
                 
                 if(await _repo.SaveChangesAsync())
                 {
-                    return Ok(productAux);
+                    return Ok(orderAux);
                 }               
             }
             catch(System.Exception ex)
             {
                 return this.StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "Erro ao atualizar o produto\n"
+                    "Erro ao atualizar o pedido\n"
                     + ex.InnerException);
             }
 
             return BadRequest();          
         }
 
-        [HttpDelete("{ProductId}")]
-        public async Task<IActionResult> Delete(int productId)
+        [HttpDelete("{OrderId}")]
+        public async Task<IActionResult> Delete(int orderId)
         {
             try
             {
-                var productAux = await _repo.GetByIdAsync(productId);
+                var orderAux = await _repo.GetByIdAsync(orderId);
 
-                if(productAux == null)
+                if(orderAux == null)
                 {
                     return NotFound();
                 }
                 
-                _repo.Delete(productAux);
+                _repo.Delete(orderAux);
 
                 if(await _repo.SaveChangesAsync())
                 {
-                    return Ok("Produto excluído com sucesso");
+                    return Ok("Pedido excluído com sucesso");
                 }               
             }
             catch(System.Exception ex)
             {
                 return this.StatusCode(
                     StatusCodes.Status500InternalServerError,
-                    "Erro ao excluir o produto\n"
+                    "Erro ao excluir o pedido\n"
                     + ex.InnerException);
             }
 
             return BadRequest();          
         }
 
-        [HttpGet("{ProductId}")]
-        public async Task<IActionResult> GetById(int productId)
+        [HttpGet("{OrderId}")]
+        public async Task<IActionResult> GetById(int orderId)
         {
             try
             {
-                var result = await _repo.GetByIdAsync(productId);
+                var result = await _repo.GetByIdAsync(orderId);
                 
                 if(result == null)
                 {
@@ -137,18 +138,18 @@ namespace BlueModas.WebAPI.Controllers
             }              
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetUserOrdersAsync(int userId)
         {
             try
             {
-                var result = await _repo.GetAllProducts();
-
+                var result = await _repo.GetUserOrdersAsync(userId);
+                
                 if(result.Count() == 0)
                 {
                     return NotFound();
                 }
-                
+
                 return Ok(result);
             }
             catch(System.Exception ex)
@@ -158,6 +159,6 @@ namespace BlueModas.WebAPI.Controllers
                     "Erro ao recuperar as informações do banco de dados\n"
                     + ex.InnerException);
             }              
-        }                              
+        }                                     
     }
 }
