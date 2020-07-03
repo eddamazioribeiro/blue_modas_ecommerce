@@ -35,6 +35,7 @@ namespace BlueModas.WebAPI
             services.AddScoped<OrderRepository>();
             services.AddScoped<OrderItemRepository>();
             services.AddScoped<AddressRepository>();
+            services.AddScoped<UserRepository>();
             
             services.AddControllers();
         }
