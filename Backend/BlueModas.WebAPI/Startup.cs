@@ -38,6 +38,7 @@ namespace BlueModas.WebAPI
             services.AddScoped<ProductRepository>();
             
             services.AddControllers();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +50,11 @@ namespace BlueModas.WebAPI
             }
 
             // app.UseHttpsRedirection();
+
+            app.UseCors(x => x
+                            .AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
 
             app.UseRouting();
 
