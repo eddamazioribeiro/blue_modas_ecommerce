@@ -36,14 +36,24 @@ export class ProductsComponent implements OnInit {
     }
 
     return [];
-
   }
 
   public addProductToCart(product: any) {
     let products: any = [];
     products = this.getProductsInCart();
 
+    let index = products.findIndex(i => i.id === product.id);
+    
+    if (index == -1) {
+      product.quantity = 1;
+    } else {
+      product.quantity = products[index].quantity += 1;
+      products.splice(index, 1);
+    }
+
     products.push(product);
+    console.log(products);
+
     localStorage.setItem('products', JSON.stringify(products));
   }
 }

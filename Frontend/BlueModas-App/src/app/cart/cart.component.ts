@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-cart',
@@ -9,17 +10,54 @@ export class CartComponent implements OnInit {
 
   products: any = [];
 
-  constructor() { }
+  constructor(private location: Location) { }
 
   ngOnInit() {
-    this.getProductsInCart();
+    this.products = this.getProductsInCart();
   }
 
-  public getProductsInCart() {
-    this.products = JSON.parse(localStorage.getItem('products'));
+  private reload() {
+    location.reload();
   }
 
-  public updateCart() {
-    // code here
+  public getProductsInCart(): [] {
+    let products = JSON.parse(localStorage.getItem('products'));
+
+    if (products) {
+      return products;
+    }
+
+    return [];
+  }
+
+  public updateCart(productId: number, quantity: number) {
+    let products: any = [];
+    products = this.products;
+
+    if (quantity !== 0) {
+      this.removeItem(productId);
+    } else {
+      let index = products.findIndex(i => i.id === productId);
+      if (index !== - 1)
+      {
+        products[index].quantity = quantity;
+      }
+      localStorage.setItem('products', JSON.stringify(products));
+    }
+  }
+
+  public removeItem(productId: number) {
+    let products: any = [];
+    products = this.getProductsInCart();
+
+    let index = products.findIndex(i => i.id === productId);
+    
+    if (index !== -1) {
+      products.splice(index, 1);
+    }
+
+    localStorage.setItem('products', JSON.stringify(products));
+
+    this.reload();
   }
 }

@@ -3,7 +3,9 @@
     Carrinho
   </h1>
 </div>
-<div class="col-8 mb-3 ml-4 text-center">
+<div
+  *ngIf="products.length > 0"
+  class="col-8 mb-3 ml-4 text-center">
   <div
     class="md-4 mb-4"
     *ngFor='let product of products'>
@@ -15,7 +17,30 @@
         <div class="card-body">
           R${{product.price}}
         </div>
+        <input
+          type="number"
+          min="0"
+          class="m-2"
+          (change)="updateCart(product.id, $event.target.value)"
+          value={{product.quantity}}/>
+          <button
+          class="btn btn-outline-danger m-3"
+          (click)="removeItem(product.id)">
+          Remover do carrinho
+        </button>         
       </div>
     </div>
   </div>
-<div>
+</div>
+<div
+  *ngIf="products.length == 0"
+  class="col-8 mb-3 ml-4 text-left">
+  <h2>
+    Não há itens no seu carrinho 
+  </h2>
+  <button
+  class="btn btn-outline-info"
+  routerLink="/">
+  Voltar às compras
+</button>  
+</div>
