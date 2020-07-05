@@ -16,8 +16,9 @@
           R${{product.price}}
         </div>
         <button
-          class="btn btn-outline-warning m-3"
-          routerLink="/cart">
+          class="btn btn-outline-warning m-3 "
+          routerLink="/cart"
+          (click)="addProductToCart(product)">
           Adicionar ao carrinho
         </button>
         <span class="badge badge-priamry badge-pill">

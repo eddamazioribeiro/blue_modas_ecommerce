@@ -27,4 +27,23 @@ export class ProductsComponent implements OnInit {
         }
       );
   }
+
+  private getProductsInCart(): [] {
+    let products = JSON.parse(localStorage.getItem('products'));
+
+    if (products) {
+      return products;
+    }
+
+    return [];
+
+  }
+
+  public addProductToCart(product: any) {
+    let products: any = [];
+    products = this.getProductsInCart();
+
+    products.push(product);
+    localStorage.setItem('products', JSON.stringify(products));
+  }
 }
