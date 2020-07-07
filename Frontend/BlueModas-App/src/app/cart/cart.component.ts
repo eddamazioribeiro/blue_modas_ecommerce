@@ -26,7 +26,7 @@ export class CartComponent implements OnInit {
 
     if (products) {
       this.productsTotals =
-        products.map(i => (i.price)).reduce((a, b) => a + b).toFixed(2);
+        products.map(i => (i.price * i.quantity)).reduce((a, b) => a + b).toFixed(2);
       return products;
     }
 
@@ -37,7 +37,7 @@ export class CartComponent implements OnInit {
     let products: any = [];
     products = this.products;
 
-    if (quantity !== 0) {
+    if (quantity === 0) {
       this.removeItem(productId);
     } else {
       let index = products.findIndex(i => i.id === productId);
@@ -47,6 +47,8 @@ export class CartComponent implements OnInit {
       }
       localStorage.setItem('products', JSON.stringify(products));
     }
+
+    this.reload();
   }
 
   public removeItem(productId: number) {
