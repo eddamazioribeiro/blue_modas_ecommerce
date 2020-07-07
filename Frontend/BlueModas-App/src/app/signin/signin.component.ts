@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SigninComponent implements OnInit {
 
+  user = "Área do Cliente";
+
   constructor() { }
 
   ngOnInit() {

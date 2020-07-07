@@ -1,5 +1,88 @@
 <div class="jumbotron mb-4">
   <h1 class="ml-4">
-    Sign-In
+    {{user}}
   </h1>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <form class="form-signin">
+        <h2
+          class="h3 mb-3 font-weight-normal">
+          Informe seus dados
+        </h2>
+        <input
+          type="name"
+          id="inputName"
+          class="form-control"
+          placeholder="nome"
+          required=""
+          autofocus="">        
+        <input
+          type="email"
+          id="inputEmail"
+          class="form-control"
+          placeholder="email"
+          required=""
+          autofocus="">
+          <input
+          type="tel"
+          id="inputPhone"
+          class="form-control"
+          placeholder="telefone"
+          mask="(00) 0000-0000"
+          required=""
+          autofocus="">          
+        <input
+          type="password"
+          id="inputPassword"
+          class="form-control"
+          placeholder="senha"
+          required="">
+        <hr/>
+        <h3
+          class="h3 mb-3 font-weight-normal">
+          Endereço
+        </h3>
+        <input
+          type="text"
+          id="inputStreet"
+          class="form-control"
+          placeholder="logradouro"
+          required=""
+          autofocus="">        
+        <input
+          type="text"
+          id="inputNumber"
+          class="form-control"
+          placeholder="número"
+          required=""
+          autofocus="">
+          <input
+          type="text"
+          id="inputZip"
+          class="form-control"
+          placeholder="CEP"
+          required=""
+          autofocus="">          
+        <input
+          type="text"
+          id="inputCity"
+          class="form-control"
+          placeholder="cidade"
+          required="">
+          <input
+          type="text"
+          id="inputState"
+          class="form-control"
+          placeholder="estado"
+          required="">                 
+        <button
+          class="btn btn-lg btn-primary btn-block"
+          type="submit">
+            Prosseguir
+        </button>
+      </form>      
+    </div>
+  </div>
 </div>
