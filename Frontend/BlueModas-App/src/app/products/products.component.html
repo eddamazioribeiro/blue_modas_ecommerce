@@ -6,7 +6,7 @@
   </div>
   <div class="row">
     <div
-      class="col-3 md-4 mb-4"
+      class="col-3 md-4 mb-4 d-flex"
       *ngFor='let product of products'>
       <div class="card box-shadow text-left">
         <div class="card-header">
@@ -24,7 +24,7 @@
         </div>
         <button
           *ngIf="product.quantity > 0"
-          class="btn btn-outline-warning m-3 "
+          class="btn btn-warning m-3 "
           routerLink="/cart"
           (click)="addProductToCart(product)">
           Adicionar ao carrinho

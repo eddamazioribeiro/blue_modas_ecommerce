@@ -4,58 +4,93 @@
   </h1>
 </div>
 <div class="container-fluid">
-  <div
-    *ngIf="products.length > 0"
-    class="col-8 mb-3 ml-4 mr-2 text-center">
+  <div class="row">
     <div
-      class="md-4 mb-4"
-      *ngFor='let product of products'>
-      <div class="row">
-        <div class="card box-shadow text-left">
-          <div class="card-header">
-            {{product.name}}
-          </div>
-          <div class="card-body">
-            <div class="m-2">
-              <img
+          
+      class="col-8">
+      <table class="table table-striped mr-2">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th></th>
+            <th>Preço</th>
+            <th>Qtd.</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let product of products'>
+            <td>
+                <img
                 src='http://localhost:5000/img/{{product.imageURL}}'
-                [style.width.%]='100'
-                [style.height.px]='200'
+                [style.width.%]='50'
+                [style.height.%]='50'
                 [style.margin.px]='2'/>
-            </div>            
-            R${{product.price}}
-          </div>
-          <input
-            type="number"
-            min="0"
-            class="m-2"
-            (change)="updateCart(product.id, $event.target.value)"
-            value={{product.quantity}}/>
+            </td>
+            <td>{{product.name}}</td>
+            <td class="w-25">R$ {{product.price}}</td>
+            <td>
+                <input
+                  type="number"
+                  min="0"
+                  class="w-25 m-2"
+                  (change)="updateCart(product.id, $event.target.value)"
+                  value={{product.quantity}}/>            
+            </td>
+            <td>
+                <button
+                  class="btn btn-danger m-3"
+                  (click)="removeItem(product.id)">
+                    X
+                </button> 
+            </td>
+          </tr>
+        </tbody>
+        <tfoot *ngIf="products.length == 0">
+          <tr>
+            <td colspan="7" class="text-left">
+                <h4>
+                    Não há itens no seu carrinho 
+                </h4>
+                <button
+                    class="btn btn-outline-info"
+                    routerLink="/">
+                    Voltar às compras
+                </button>  
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <!-- Order Summary -->
+    <div
+      *ngIf="products.length > 0"  
+      class="col-4 text-left">
+        <div class="card">
+          <div class="card-header">
+            Resumo do Pedido
+          </div>          
+          <div class="card-body">
+            <p>
+              Subtotal: R${{productsTotals}} 
+            </p>
+            <p>
+              Frete: Grátis 
+            </p>            
+            <hr/>
+            <p>
+              <strong>
+                Total: R${{productsTotals}} 
+              </strong>
+            </p>
             <button
-            class="btn btn-outline-danger m-3"
-            (click)="removeItem(product.id)">
-            Remover do carrinho
-          </button>         
+              class="btn btn-success"
+              routerLink="/">
+                Checkout
+            </button>                     
+          </div>
         </div>
-      </div>
     </div>
   </div>
-  <div
-    *ngIf="products.length == 0"
-    class="col-8 mb-3 ml-4 text-left">
-    <h2>
-      Não há itens no seu carrinho 
-    </h2>
-    <button
-    class="btn btn-outline-info"
-    routerLink="/">
-    Voltar às compras
-  </button>  
-  </div>  
-  <!-- Order info -->
-  <div
-    *ngIf="products.length > 0"  
-    class="col-4 mb-3 ml-4 mr-0 text-left">
-    Teste
-  </div>   
 </div>
+<div>

@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 export class CartComponent implements OnInit {
 
   products: any = [];
+  productsTotals = 0;
 
   constructor(private location: Location) { }
 
@@ -24,6 +25,8 @@ export class CartComponent implements OnInit {
     let products = JSON.parse(localStorage.getItem('products'));
 
     if (products) {
+      this.productsTotals =
+        products.map(i => (i.price)).reduce((a, b) => a + b).toFixed(2);
       return products;
     }
 
