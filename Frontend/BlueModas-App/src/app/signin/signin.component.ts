@@ -14,12 +14,12 @@ export class SigninComponent implements OnInit {
     username: new FormControl(),
     email: new FormControl(),
     phone: new FormControl(),
-    password: new FormControl()
-    // street: new FormControl(),
-    // number: new FormControl(),
-    // zipcode: new FormControl(),
-    // city: new FormControl(),
-    // state: new FormControl()
+    password: new FormControl(),
+    street: new FormControl(),
+    number: new FormControl(),
+    zipcode: new FormControl(),
+    city: new FormControl(),
+    state: new FormControl()
   });
 
   user: any = {};
@@ -30,7 +30,13 @@ export class SigninComponent implements OnInit {
   }
 
   onSubmit() {
-    let user = JSON.stringify(this.userForm.value);
+    let user = {
+      username: this.userForm.value.username,
+      email: this.userForm.value.email,
+      password: this.userForm.value.password,
+      phone: this.userForm.value.phone,
+    };
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -41,7 +47,7 @@ export class SigninComponent implements OnInit {
       'http://localhost:5000/api/user', user, httpOptions).subscribe(
         data => {
           this.user = data;
-          console.log(data);
+          this.saveUserAddress(data.id);
         },
         err => {
           console.error(err);
@@ -49,4 +55,30 @@ export class SigninComponent implements OnInit {
       );
   }
 
+  private saveUserAddress(userId) {
+    let address = {
+      street: this.userForm.value.street,
+      number: parseInt(this.userForm.value.number),
+      zipcode: parseInt(this.userForm.value.zipcode),
+      city: this.userForm.value.city,
+      state: this.userForm.value.state
+    };
+
+    const httpOptions = {
+      params: userId,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    }
+
+    this.http.post<any>(
+      "http://localhost:5000/api/address/7", address, httpOptions).subscribe(
+        data => {
+          console.log(data);
+        },
+        err => {
+          console.error(err, address);
+        }
+      );
+  }
 }
