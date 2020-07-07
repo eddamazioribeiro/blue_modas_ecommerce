@@ -1,12 +1,15 @@
 <div class="jumbotron mb-4">
   <h1 class="ml-4">
-    {{user}}
+    {{logedUser}}
   </h1>
 </div>
 <div class="container">
   <div class="row">
     <div class="col-6">
-      <form class="form-signin">
+      <form
+        [formGroup]="userForm"
+        (submit)="onSubmit()"
+        class="form-signin">
         <h2
           class="h3 mb-3 font-weight-normal">
           Informe seus dados
@@ -16,13 +19,16 @@
           id="inputName"
           class="form-control"
           placeholder="nome"
+          formControlName="username"
           required=""
-          autofocus="">        
+          autofocus=""
+          formControName="name">     
         <input
           type="email"
           id="inputEmail"
           class="form-control"
           placeholder="email"
+          formControlName="email"
           required=""
           autofocus="">
           <input
@@ -30,17 +36,19 @@
           id="inputPhone"
           class="form-control"
           placeholder="telefone"
+          formControlName="phone"
           mask="(00) 0000-0000"
           required=""
-          autofocus="">          
+          autofocus="">         
         <input
           type="password"
           id="inputPassword"
           class="form-control"
           placeholder="senha"
+          formControlName="password"
           required="">
         <hr/>
-        <h3
+        <!-- <h3
           class="h3 mb-3 font-weight-normal">
           Endereço
         </h3>
@@ -49,13 +57,15 @@
           id="inputStreet"
           class="form-control"
           placeholder="logradouro"
+          formControlName="street"
           required=""
-          autofocus="">        
+          autofocus="">  
         <input
           type="text"
           id="inputNumber"
           class="form-control"
           placeholder="número"
+          formControlName="number"
           required=""
           autofocus="">
           <input
@@ -63,23 +73,25 @@
           id="inputZip"
           class="form-control"
           placeholder="CEP"
+          formControlName="zipcode"
           required=""
-          autofocus="">          
+          autofocus="">         
         <input
           type="text"
           id="inputCity"
           class="form-control"
           placeholder="cidade"
-          required="">
+          formControlName="city"
+          required=""> 
           <input
           type="text"
           id="inputState"
           class="form-control"
           placeholder="estado"
-          required="">                 
+          formControlName="state"
+          required="">               -->
         <button
-          class="btn btn-lg btn-primary btn-block"
-          type="submit">
+          class="btn btn-lg btn-primary btn-block">
             Prosseguir
         </button>
       </form>      
