@@ -24,7 +24,6 @@ export class ProductsComponent implements OnInit {
       'http://localhost:5000/api/product').subscribe(
         res => {
           this.products = res;
-          console.log(res);
         },
         err => {
           console.error(err);

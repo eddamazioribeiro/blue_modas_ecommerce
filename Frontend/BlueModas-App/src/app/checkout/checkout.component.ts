@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  templateUrl: './checkout.component.html',
+  styleUrls: ['./checkout.component.css']
 })
-export class UserComponent implements OnInit {
+export class CheckoutComponent implements OnInit {
 
   logedUser = "Área do Cliente";
   userForm = new FormGroup({
@@ -26,10 +26,13 @@ export class UserComponent implements OnInit {
   user: any = {};
   address: any = {};
   order: any = {};
+  productsInCart: any = {};
+  productsTotals = 0;
 
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
+    this.productsInCart = this.getProductsInCart();
   }
 
   onSubmit() {
@@ -75,7 +78,7 @@ export class UserComponent implements OnInit {
     }
 
     this.http.post<any>(
-      'http://localhost:5000/api/address/7', address, httpOptions).subscribe(
+      'http://localhost:5000/api/address/' + userId, address, httpOptions).subscribe(
         data => {
           this.address = data;
           this.createOrder();
@@ -105,6 +108,10 @@ export class UserComponent implements OnInit {
         data => {
           this.order = data;
           this.saveOrderItems(data.id);
+
+          alert("Pedido gerado com sucesso!\nNúmero do pedido: " + data.id);
+      
+          this.router.navigate(['/']);
         },
         err => {
           console.error(err, order);
@@ -140,14 +147,16 @@ export class UserComponent implements OnInit {
           }
         );
     });
+
+    localStorage.removeItem('products');
   }
 
   public getProductsInCart(): [] {
     let products = JSON.parse(localStorage.getItem('products'));
 
-    console.log(products);
-
     if (products) {
+      this.productsTotals =
+        products.map(i => (i.price * i.quantity)).reduce((a, b) => a + b).toFixed(2);
       return products;
     }
 

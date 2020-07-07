@@ -5,7 +5,7 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-6">
+    <div class="col-7">
       <form
         [formGroup]="userForm"
         (submit)="onSubmit()"        
@@ -95,6 +95,37 @@
             Prosseguir
         </button>
       </form>      
+    </div>
+    <div class="col-5">
+      <!-- Order Summary -->
+      <div
+        *ngIf="productsInCart.length > 0"  
+        class="text-left">
+          <div class="card">
+            <div class="card-header">
+              Resumo do Pedido
+            </div>          
+            <div class="card-body">
+              <p>
+                Subtotal: R${{productsTotals}} 
+              </p>
+              <p>
+                Frete: Grátis 
+              </p>            
+              <hr/>
+              <p>
+                <strong>
+                  Total: R${{productsTotals}} 
+                </strong>
+              </p>
+              <button
+                class="btn btn-outline-info"
+                routerLink="/cart">
+                  Voltar para o carrinho
+              </button>                     
+            </div>
+          </div>
+      </div>      
     </div>
   </div>
 </div>
