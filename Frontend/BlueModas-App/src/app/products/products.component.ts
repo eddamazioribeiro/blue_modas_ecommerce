@@ -9,6 +9,9 @@ import { HttpClient } from '@angular/common/http';
 export class ProductsComponent implements OnInit {
 
   products: any = [];
+  imagemAltura = 200;
+  imagemLargura = 200;
+  imagemMargem = 2;
 
   constructor(private http: HttpClient) { }
 
@@ -21,6 +24,7 @@ export class ProductsComponent implements OnInit {
       'http://localhost:5000/api/product').subscribe(
         res => {
           this.products = res;
+          console.log(res);
         },
         err => {
           console.error(err);

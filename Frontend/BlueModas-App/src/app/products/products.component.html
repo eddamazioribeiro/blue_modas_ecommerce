@@ -12,6 +12,13 @@
         <div class="card-header">
           {{product.name}}
         </div>
+        <div class="m-2">
+          <img
+            src='http://localhost:5000/img/{{product.imageURL}}'
+            [style.width.%]='100'
+            [style.height.px]='200'
+            [style.margin.px]='2'/>
+        </div>
         <div class="card-body">
           R${{product.price}}
         </div>

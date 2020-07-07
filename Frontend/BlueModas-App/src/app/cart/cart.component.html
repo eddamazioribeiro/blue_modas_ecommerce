@@ -3,44 +3,59 @@
     Carrinho
   </h1>
 </div>
-<div
-  *ngIf="products.length > 0"
-  class="col-8 mb-3 ml-4 text-center">
+<div class="container-fluid">
   <div
-    class="md-4 mb-4"
-    *ngFor='let product of products'>
-    <div class="row">
-      <div class="card box-shadow text-left">
-        <div class="card-header">
-          {{product.name}}
+    *ngIf="products.length > 0"
+    class="col-8 mb-3 ml-4 mr-2 text-center">
+    <div
+      class="md-4 mb-4"
+      *ngFor='let product of products'>
+      <div class="row">
+        <div class="card box-shadow text-left">
+          <div class="card-header">
+            {{product.name}}
+          </div>
+          <div class="card-body">
+            <div class="m-2">
+              <img
+                src='http://localhost:5000/img/{{product.imageURL}}'
+                [style.width.%]='100'
+                [style.height.px]='200'
+                [style.margin.px]='2'/>
+            </div>            
+            R${{product.price}}
+          </div>
+          <input
+            type="number"
+            min="0"
+            class="m-2"
+            (change)="updateCart(product.id, $event.target.value)"
+            value={{product.quantity}}/>
+            <button
+            class="btn btn-outline-danger m-3"
+            (click)="removeItem(product.id)">
+            Remover do carrinho
+          </button>         
         </div>
-        <div class="card-body">
-          R${{product.price}}
-        </div>
-        <input
-          type="number"
-          min="0"
-          class="m-2"
-          (change)="updateCart(product.id, $event.target.value)"
-          value={{product.quantity}}/>
-          <button
-          class="btn btn-outline-danger m-3"
-          (click)="removeItem(product.id)">
-          Remover do carrinho
-        </button>         
       </div>
     </div>
   </div>
-</div>
-<div
-  *ngIf="products.length == 0"
-  class="col-8 mb-3 ml-4 text-left">
-  <h2>
-    Não há itens no seu carrinho 
-  </h2>
-  <button
-  class="btn btn-outline-info"
-  routerLink="/">
-  Voltar às compras
-</button>  
+  <div
+    *ngIf="products.length == 0"
+    class="col-8 mb-3 ml-4 text-left">
+    <h2>
+      Não há itens no seu carrinho 
+    </h2>
+    <button
+    class="btn btn-outline-info"
+    routerLink="/">
+    Voltar às compras
+  </button>  
+  </div>  
+  <!-- Order info -->
+  <div
+    *ngIf="products.length > 0"  
+    class="col-4 mb-3 ml-4 mr-0 text-left">
+    Teste
+  </div>   
 </div>

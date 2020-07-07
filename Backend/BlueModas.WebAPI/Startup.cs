@@ -55,6 +55,8 @@ namespace BlueModas.WebAPI
                             .AllowAnyOrigin()
                             .AllowAnyMethod()
                             .AllowAnyHeader());
+            
+            app.UseStaticFiles();
 
             app.UseRouting();
 
