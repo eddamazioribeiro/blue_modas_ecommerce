@@ -3,11 +3,11 @@ import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
-  selector: 'app-signin',
-  templateUrl: './signin.component.html',
-  styleUrls: ['./signin.component.css']
+  selector: 'app-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.css']
 })
-export class SigninComponent implements OnInit {
+export class UserComponent implements OnInit {
 
   logedUser = "Área do Cliente";
   userForm = new FormGroup({
